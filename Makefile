@@ -2,11 +2,12 @@
 
 GIT?=git
 MC_BOPOMOFO_REPO?=git://github.com/mjhsieh/McBopomofo.git
+TMPDIR=.
 
 # get a copy of SpiderMonkey Javascript Shell for the js command
 # http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-trunk/
 # (scroll all the way down to find jsshell-x.zip for your platform)
-JSSHELL?=js
+JSSHELL?=./js
 
 # Make data files by pulling files from McBopomofo
 .PHONY: data
@@ -20,9 +21,9 @@ data:
 	@echo
 	@echo Convert data.txt to JSON...
 	@cat $(TMPDIR)/McBopomofo/Source/Data/data.txt | \
-		$(JSSHELL) -U ./build/convert-data.js words > ./lib/words.json
+		$(JSSHELL) ./build/convert-data.js words > ./lib/words.json
 	@cat $(TMPDIR)/McBopomofo/Source/Data/data.txt | \
-		$(JSSHELL) -U ./build/convert-data.js phrases > ./lib/phrases.json
+		$(JSSHELL) ./build/convert-data.js phrases > ./lib/phrases.json
 	@$(GIT) --git-dir=$(TMPDIR)/McBopomofo/.git log -n 1 --format=%H > \
 		./lib/data-commit-hash
 	@echo

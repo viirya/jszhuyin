@@ -1,18 +1,19 @@
 var result = {};
 
-if (!stringsAreUTF8()) {
-  throw 'You need UTF-8 enabled SpiderMonkey to do cook the data.';
-  quit();
+function encode_utf8(s) {
+  return unescape(encodeURIComponent(s));
+}
+
+function decode_utf8(s) {
+  return decodeURIComponent(escape(s));
 }
 
 var line;
 while (line = readline()) {
-
-  line = line.split(' ');
-
+  line = decode_utf8(line).split(' ');
   if (line[1].indexOf('_punctuation_') !== -1) continue;
 
-  switch (arguments[0]) {
+  switch (scriptArgs[0]) {
     case 'words':
     default:
       if (line[0].length !== 1) continue;
@@ -21,7 +22,6 @@ while (line = readline()) {
       if (line[0].length === 1) continue;
     break;
   }
-
   if (!result[line[1]]) result[line[1]] = [];
 
   result[line[1]].push([line[0], parseFloat(line[2])]);
